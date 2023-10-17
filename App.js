@@ -15,13 +15,6 @@ export default function App() {
     <Stack.Navigator >
 
 
-    <Stack.Screen 
-      name="SignupScreen" 
-      component={SignupScreen}
-      options={{
-        headerShown:false
-      }}
-    />
 
     <Stack.Screen 
       name="LoginScreen" 
@@ -30,6 +23,17 @@ export default function App() {
         headerShown:false
       }}
     />
+
+    
+    <Stack.Screen 
+      name="SignupScreen" 
+      component={SignupScreen}
+      options={{
+        headerShown:false
+      }}
+    />
+
+    
 
     <Stack.Screen 
       name="Home" 

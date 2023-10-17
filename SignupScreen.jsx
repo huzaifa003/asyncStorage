@@ -14,8 +14,8 @@ export default function SignupScreen() {
   const navigation = useNavigation();
 
   const loginBtnPressed = async () => {
-    
-    await AsyncStorage.setItem(username,passsword)
+      
+    await AsyncStorage.setItem("username",passsword)
     console.log(await AsyncStorage.getItem(username))
     navigation.push('LoginScreen')
 
@@ -52,9 +52,9 @@ export default function SignupScreen() {
       </TouchableOpacity>
 
 
-      <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('LoginScreen')}>
+      {/* <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('LoginScreen')}>
         <Text style={{color:'white'}}>Have an account? Log in</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
 
       <StatusBar style="auto" />
