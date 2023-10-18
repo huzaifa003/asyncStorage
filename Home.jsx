@@ -1,34 +1,60 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default Home = () => {
     const navigation = useNavigation();
 
     const [color, setColor] = useState('black')
 
-    const changeColor = ()=>{
-    
-        console.log(color)
-        if (color == 'black'){
-            setColor('white')
+    useEffect(() => {
+        const checkColor = async () => {
+            const key = await AsyncStorage.getItem("username");
+            const storedColor = await AsyncStorage.getItem(key);
+            if (storedColor === null) {
+                await AsyncStorage.setItem(key, "white")
+            }
+            else{
+                setColor(storedColor);
+            }
         }
-        else{
-            setColor('black');
-        }
-    }
-    return (
-        <View style = {{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: color}}>
-            <View>
-            <Text>hello {global.username}</Text>
-            <TouchableOpacity style={styles.button} onPress={()=>{ AsyncStorage.removeItem("username"); navigation.reset({index: 0, routes: [{name : 'LoginScreen'}]})}}>
-                <Text style={{ color: 'white' }}>Log out</Text>
-            </TouchableOpacity>
+        checkColor();
+    }, [])
+    const changeColor = async () => {
 
-            <TouchableOpacity style={styles.button} onPress={changeColor}>
-                <Text style={{ color: 'white' }}>Change Color</Text>
-            </TouchableOpacity>
+        console.log(color)
+        const key = await AsyncStorage.getItem("username");
+        const storedColor = await AsyncStorage.getItem(key);
+        if (storedColor === null) {
+            await AsyncStorage.setItem(key, "white")
+        }
+        else {
+            if (storedColor == 'black') {
+                setColor('white');
+                await AsyncStorage.setItem(key, "white");
+            }
+            else {
+                setColor('black');
+                await AsyncStorage.setItem(key, "black");
+            }
+        }
+
+
+    }
+
+
+    return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: color }}>
+            <View>
+                <Text>hello {global.username}</Text>
+                <TouchableOpacity style={styles.button} onPress={() => { AsyncStorage.removeItem("username"); navigation.reset({ index: 0, routes: [{ name: 'LoginScreen' }] }) }}>
+                    <Text style={{ color: 'white' }}>Log out</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={changeColor}>
+                    <Text style={{ color: 'white' }}>Change Color</Text>
+                </TouchableOpacity>
             </View>
 
         </View>
@@ -38,7 +64,7 @@ export default Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
         alignItems: 'center',
         justifyContent: 'center',
     },
